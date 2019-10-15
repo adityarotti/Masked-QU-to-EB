@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../Makefile">
+   </FileRef>
+   <FileRef
+      location = "group:../modules">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/adityarotti/Documents/Work/core_codes/Masked-QU-to-EB/version1.5/qu2eb.f90">
+   </FileRef>
+   <FileRef
+      location = "group:../py_qu2eb.f90">
+   </FileRef>
+   <FileRef
+      location = "group:../Makefile_py">
+   </FileRef>
+</Workspace>

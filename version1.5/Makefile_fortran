@@ -1,6 +1,7 @@
 # Choose which file you want to compile.
-filename=py_qu2eb
+filename=qu2eb
 
+exex_prefix = run-
 # Path to the moduales
 modules=./modules
 subroutines=./subroutines
@@ -11,7 +12,6 @@ include=/Users/adityarotti/Documents/Work/Software/Healpix_3.20/include
 healpixlib=/Users/adityarotti/Documents/Work/Software/Healpix_3.20/lib
 cfitsiolib=/Users/adityarotti/Documents/Work/Software/cfitsio/lib
 
-LDFLAGS= -L$(healpixlib) -lhealpix  -lhpxgif -L$(cfitsiolib) -lcfitsio -lgomp
 ######################## GFORTRAN ##########################
 FC=gfortran -fbounds-check -ffixed-line-length-none -Wall -Wextra -Wconversion
 F77flags=-c -fopenmp
@@ -20,17 +20,18 @@ F90flags= -DGFORTRAN -fno-second-underscore -fopenmp
 
 all:bips
 bips:bipsobj
-	f2py -c --fcompiler=gfortran $(LDFLAGS) *.o -m $(filename) $(filename).f90
+	$(FC) -O  -I$(include) $(F90flags) -o $(exex_prefix)$(filename) *.o -L$(healpixlib) -lhealpix  -lhpxgif -L$(cfitsiolib) -lcfitsio
 	make clean
+#	$(FC) -O3 *o $(filename).f90 -o nrun
 
 bipsobj:
 #	$(FC) -c $(F90flags) $(subroutines)/WIGNER_SUBROUTINES/*.f 
 #	$(FC) -c $(F90flags) $(subroutines)/WIGNER_SUBROUTINES/*.f90
-	$(FC) -c -I$(include) $(F90flags) $(modules)/global_py.f90 
-	$(FC) -c -I$(include) $(F90flags) $(modules)/mask_operations_py.f90 
-	$(FC) -c -I$(include) $(F90flags) $(modules)/datainout_py.f90 
-	$(FC) -c -I$(include) $(F90flags) $(modules)/map_operations_py.f90 
-	#$(FC) -O3 -I$(include) $(F90flags) -c $(filename).f90 -o $(filename).o
+	$(FC) -c -I$(include) $(F90flags) $(modules)/global.f90 
+	$(FC) -c -I$(include) $(F90flags) $(modules)/mask_operations.f90 
+	$(FC) -c -I$(include) $(F90flags) $(modules)/datainout.f90 
+	$(FC) -c -I$(include) $(F90flags) $(modules)/map_operations.f90 
+	$(FC) -O3 -I$(include) $(F90flags) -c $(filename).f90 -o $(filename).o
 
 clean:
 	$(RM) *.o *.mod *~

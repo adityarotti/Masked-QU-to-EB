@@ -1,4 +1,4 @@
-!######## INPUT/OUTPUT parameters #########################################
+####### INPUT/OUTPUT parameters #########################################
 512	    		-->     Nside
 F F F			-->     swBeam/swPWC/swDOFS
 "./datain/nobeam.fits"	-->     Beam file
