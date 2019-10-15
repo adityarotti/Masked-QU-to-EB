@@ -18,14 +18,14 @@ real(dp), dimension(0:npixtot-1,1:3) :: tempmap
 complex(dpc),dimension(1,0:maplmax,0:maplmax) :: tempalm
 
 if (.not.swMASK) then
-  call map2alm_iterative(nside,2*nside,2*nside,maxiter,mapin,mapalm)
-  !call map2alm(nside,2*nside,2*nside,mapin,mapalm,zbounds,dw8)
+  call map2alm_iterative(nside,maplmax,maplmax,maxiter,mapin,mapalm)
+  !call map2alm(nside,maplmax,maplmax,mapin,mapalm,zbounds,dw8)
 elseif(swMASK) then
   tempmap(:,1)=mapin(:,1)*apomask(:,1)
   tempmap(:,2)=mapin(:,2)*apomask(:,1)
   tempmap(:,3)=mapin(:,3)*apomask(:,1)
-  call map2alm_iterative(nside,2*nside,2*nside,maxiter,tempmap,mapalm)
-  !call map2alm(nside,2*nside,2*nside,tempmap,mapalm,zbounds,dw8)
+  call map2alm_iterative(nside,maplmax,maplmax,maxiter,tempmap,mapalm)
+  !call map2alm(nside,maplmax,maplmax,tempmap,mapalm,zbounds,dw8)
   mapinalm=mapalm
 endif
 
@@ -40,13 +40,13 @@ do i=0,maplmax
 enddo
 
 tempalm(1,:,:)=mapalm(1,:,:)
-call alm2map(nside,2*nside,2*nside,tempalm,mapout(:,1))
+call alm2map(nside,maplmax,maplmax,tempalm,mapout(:,1))
 
 tempalm(1,:,:)=mapalm(2,:,:)
-call alm2map(nside,2*nside,2*nside,tempalm,mapout(:,2))
+call alm2map(nside,maplmax,maplmax,tempalm,mapout(:,2))
 
 tempalm(1,:,:)=mapalm(3,:,:)
-call alm2map(nside,2*nside,2*nside,tempalm,mapout(:,3))
+call alm2map(nside,maplmax,maplmax,tempalm,mapout(:,3))
 
 end subroutine convert_TQU2TEB
 !#######################################################################
@@ -61,14 +61,14 @@ real(dp), dimension(0:npixtot-1,1:3) :: tempmap
 complex(dpc),dimension(1,0:maplmax,0:maplmax) :: tempalm
 
 if (.not.swMASK) then
-  call map2alm_iterative(nside,2*nside,2*nside,maxiter,mapin,mapalm)
-  !call map2alm(nside,2*nside,2*nside,mapin,mapalm,zbounds,dw8)
+  call map2alm_iterative(nside,maplmax,maplmax,maxiter,mapin,mapalm)
+  !call map2alm(nside,maplmax,maplmax,mapin,mapalm,zbounds,dw8)
 elseif(swMASK) then
   tempmap(:,1)=mapin(:,1)*apomask(:,1)
   tempmap(:,2)=mapin(:,2)*apomask(:,1)
   tempmap(:,3)=mapin(:,3)*apomask(:,1)
-  call map2alm_iterative(nside,2*nside,2*nside,maxiter,tempmap,mapalm)
-  !call map2alm(nside,2*nside,2*nside,tempmap,mapalm,zbounds,dw8)
+  call map2alm_iterative(nside,maplmax,maplmax,maxiter,tempmap,mapalm)
+  !call map2alm(nside,maplmax,maplmax,tempmap,mapalm,zbounds,dw8)
   mapinalm=mapalm
 endif
 
@@ -82,13 +82,13 @@ do i=0,maplmax
 enddo
 
 tempalm(1,:,:)=mapalm(1,:,:)
-call alm2map(nside,2*nside,2*nside,tempalm,mapout(:,1))
+call alm2map(nside,maplmax,maplmax,tempalm,mapout(:,1))
 
 tempalm(1,:,:)=mapalm(2,:,:)
-call alm2map(nside,2*nside,2*nside,tempalm,mapout(:,2))
+call alm2map(nside,maplmax,maplmax,tempalm,mapout(:,2))
 
 tempalm(1,:,:)=mapalm(3,:,:)
-call alm2map(nside,2*nside,2*nside,tempalm,mapout(:,3))
+call alm2map(nside,maplmax,maplmax,tempalm,mapout(:,3))
 
 end subroutine convert_TQU2TEB_tilde
 !########################################################################
@@ -125,7 +125,7 @@ do i=0,maplmax
     tempalm(2,i,j)= -sqrt((ell+2.d0)*(ell-1.d0))*mapinalm(3,i,j)
   enddo
 enddo
-call alm2map_spin(nside,2*nside,2*nside,1,tempalm,dx)
+call alm2map_spin(nside,maplmax,maplmax,1,tempalm,dx)
 
 !!--------------------------------------------------------------------
 !! Writing out the spin raised/lowered polarization fields.
@@ -142,11 +142,11 @@ call alm2map_spin(nside,2*nside,2*nside,1,tempalm,dx)
 do i=0,maplmax
   ell=float(i)
   do j=0,i
-    tempalm(1,i,j)=-sqrt(ell*(ell+1.d0))*maskalm(1,i,j)
+    tempalm(1,i,j)=sqrt(ell*(ell+1.d0))*maskalm(1,i,j)
     tempalm(2,i,j)=dcmplx(0.d0,0.d0)
   enddo
 enddo
-call alm2map_spin(nside,2*nside,2*nside,1,tempalm,dw)
+call alm2map_spin(nside,maplmax,maplmax,1,tempalm,dw)
 
 !!--------------------------------------------------------------------
 !! Writing out the spin raised/lowered ONCE mask fields.
@@ -164,11 +164,11 @@ call alm2map_spin(nside,2*nside,2*nside,1,tempalm,dw)
 do i=0,maplmax
   ell=float(i)
   do j=0,i
-    tempalm(1,i,j)=-sqrt((ell+2.d0)*(ell+1.d0)*ell*(ell-1.d0))*maskalm(1,i,j)
+    tempalm(1,i,j)=sqrt((ell+2.d0)*(ell+1.d0)*ell*(ell-1.d0))*maskalm(1,i,j)
     tempalm(2,i,j)=dcmplx(0.d0,0.d0)
   enddo
 enddo
-call alm2map_spin(nside,2*nside,2*nside,2,tempalm,d2w)
+call alm2map_spin(nside,maplmax,maplmax,2,tempalm,d2w)
 
 d2w(:,1)=d2w(:,1)*apomask(:,1)
 d2w(:,2)=d2w(:,2)*apomask(:,1)
@@ -189,10 +189,9 @@ residual(:,1) = (mapin(:,2)*d2w(:,1) + mapin(:,3)*d2w(:,2))
 residual(:,1) = residual(:,1) + 2.d0*(dw(:,1)*dx(:,1) + dw(:,2)*dx(:,2))
 residual(:,1) = residual(:,1) - 2.d0*(dw(:,1)*dw(:,1) - dw(:,2)*dw(:,2))*mapin(:,2) - 4.d0*dw(:,1)*dw(:,2)*mapin(:,3)
 ! B
-residual(:,2) = (-mapin(:,2)*d2w(:,2) + mapin(:,3)*d2w(:,1))
-residual(:,2) = residual(:,2) + 2.d0*(dw(:,1)*dx(:,2) - dw(:,2)*dx(:,1))
-residual(:,2) = residual(:,2) - 2.d0*(dw(:,1)*dw(:,1) - dw(:,2)*dw(:,2))*mapin(:,3) + 4.d0*dw(:,1)*dw(:,2)*mapin(:,2)
-
+residual(:,2) = (mapin(:,2)*d2w(:,2) - mapin(:,3)*d2w(:,1))
+residual(:,2) = residual(:,2) + 2.d0*(dw(:,2)*dx(:,1) - dw(:,1)*dx(:,2))
+residual(:,2) = residual(:,2) + 2.d0*(dw(:,1)*dw(:,1) - dw(:,2)*dw(:,2))*mapin(:,3) - 4.d0*dw(:,1)*dw(:,2)*mapin(:,2)
 
 !filename=trim(adjustl(pathout))//"E-residual.fits"
 !tempmap(:,1)=residual(:,1)

@@ -7,14 +7,14 @@ use map_operations
 
 contains
 
-subroutine return_TEB(TQU,mymask,mynside,DOFS,npixtot,TEB)
+subroutine return_TEB(TQU,mymask,mynside,lmax,DOFS,shtiter,npixtot,TEB)
 implicit none
-integer*8, intent(in) :: mynside,npixtot
+integer*8, intent(in) :: mynside,npixtot,shtiter,lmax
 logical, intent(in)   :: DOFS
 real*8, intent(in)  :: TQU(0:npixtot-1,1:3),mymask(0:npixtot-1)
 real*8, intent(out) :: TEB(0:npixtot-1,1:3)
 
-call pass_param(mynside,DOFS)
+call pass_param(mynside,lmax,DOFS) ; maxiter=shtiter
 call allocate_data()
 call allocate_mask_arrays()
 call return_corrections()
@@ -26,9 +26,11 @@ call calc_mask_alm()
 print*, "calculated mask alms"
 if (swDOFS) then
     swMASK=.False.
+    print*, "Doing full sky"
     call convert_TQU2TEB_tilde()
 else
     swMASK=.True.
+    print*, "Doing masked sky analysis"
     call convert_TQU2TEB()
     call calc_residual()
 endif

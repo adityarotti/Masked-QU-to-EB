@@ -38,7 +38,7 @@ implicit none
 
 call read_bintab(maskfile,apomask,npixtot,1,nullval,anynull)
 !call convert_nest2ring(nside,mask(:,1))
-call map2alm_iterative(nside,2*nside,2*nside,5,apomask,maskalm)
+call map2alm_iterative(nside,maplmax,maplmax,maxiter,apomask,maskalm)
 
 !dw8=1.d0
 !call map2alm(nside,2*nside,2*nside,apomask(:,1),maskalm,zbounds,dw8)

@@ -3,9 +3,9 @@ use healpix_types
 
 implicit none
 
-integer(I4B),parameter :: ncl=3,whichmap=3,whichcl=1,nlheader=80,maxiter=8
+integer(I4B),parameter :: ncl=3,whichmap=3,whichcl=1,nlheader=80
 
-integer(I4B) :: iter,i,j
+integer(I4B) :: iter,i,j,maxiter
 integer(I4B) :: simnum,nrlz,nstart
 integer(I4B) :: nside,npixtot,maplmax,maxnalms
 
@@ -27,12 +27,12 @@ logical :: anynull,swPWC,swBEAM,swMASK,swDOFS,swSUFFIX
 contains
 
 !########################################################################
-subroutine pass_param(mynside,DOFS)
+subroutine pass_param(mynside,lmax,DOFS)
 use healpix_modules
 
 implicit none
 character(LEN=200) :: paramfile
-integer(I8B) :: mynside
+integer(I8B) :: mynside,lmax
 logical :: DOFS
 
 nside=mynside
@@ -40,12 +40,13 @@ DOFS=swDOFS
 swPWC=.False.
 swBEAM=.False.
 
-maplmax=2*nside
+maplmax=lmax
 npixtot=nside2npix(nside)
 maxnalms=((maplmax+1)*(maplmax+2))/2
 dtypein="MAP"
 dtypeout="MAP"
 
+print*, swDOFS
 
 !call write_minimal_header(mapheader,dtypeout,nside=nside,ordering="RING",polar=.True.)
 

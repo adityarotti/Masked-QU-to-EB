@@ -1,5 +1,5 @@
 ####### INPUT/OUTPUT parameters #########################################
-512	    		-->     Nside
+512 1536 4	    	-->     Nside, maplmax, maxiter
 F F F			-->     swBeam/swPWC/swDOFS
 "./datain/nobeam.fits"	-->     Beam file
 "./datain/mask_gal70_nside512.fits"	-->	Maskname

@@ -7,6 +7,7 @@ use process_mask
 implicit none
 real(dp) :: multipoles(0:3)
 real(dp), allocatable, dimension(:,:) :: pwc,bl
+real(dp), allocatable, dimension(:,:) :: dw8
 real(dp), allocatable, dimension(:,:) :: mapin,mapout,residual
 complex(dpc),allocatable,dimension(:,:,:) :: mapalm,mapinalm
 
@@ -17,9 +18,11 @@ subroutine allocate_data()
 
 implicit none
 
+allocate(dw8(1:maplmax,1:whichmap))
 allocate(bl(0:maplmax,1:3),pwc(0:maplmax,1:3))
 allocate(mapin(0:npixtot-1,1:whichmap),mapout(0:npixtot-1,1:whichmap),residual(0:npixtot-1,1:2))
 allocate(mapalm(1:whichmap,0:maplmax,0:maplmax),mapinalm(1:whichmap,0:maplmax,0:maplmax))
+dw8=1.d0
 
 end subroutine allocate_data
 
@@ -29,6 +32,7 @@ subroutine deallocate_data()
 
 implicit none
 
+deallocate(dw8)
 deallocate(bl, pwc)
 deallocate(mapin,mapout,residual)
 deallocate(mapalm,mapinalm)
