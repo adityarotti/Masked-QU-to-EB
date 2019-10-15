@@ -22,8 +22,6 @@ call return_corrections()
 apomask(:,1)=mymask(:)
 mapin(:,1)=TQU(:,1) ; mapin(:,2)=TQU(:,2) ; mapin(:,3)=TQU(:,3)
 print*, "allocated corrections"
-call calc_mask_alm()
-print*, "calculated mask alms"
 if (swDOFS) then
     swMASK=.False.
     print*, "Doing full sky"
@@ -31,6 +29,8 @@ if (swDOFS) then
 else
     swMASK=.True.
     print*, "Doing masked sky analysis"
+    call calc_mask_alm()
+	print*, "calculated mask alms"
     call convert_TQU2TEB()
     call calc_residual()
 endif

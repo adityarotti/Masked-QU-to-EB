@@ -36,7 +36,7 @@ integer(I8B) :: mynside,lmax
 logical :: DOFS
 
 nside=mynside
-DOFS=swDOFS
+swDOFS=DOFS
 swPWC=.False.
 swBEAM=.False.
 

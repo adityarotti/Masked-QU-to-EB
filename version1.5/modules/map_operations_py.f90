@@ -74,7 +74,8 @@ endif
 
 do i=0,maplmax
   ell=float(i)
-  prefactor=1.d0
+  prefactor=0.d0
+  if (i.gt.1) prefactor=sqrt((ell+2.d0)*(ell+1.d0)*ell*(ell-1.d0))
   do j=0,i
     mapalm(2,i,j)=mapalm(2,i,j)*prefactor
     mapalm(3,i,j)=mapalm(3,i,j)*prefactor 
